@@ -4,6 +4,11 @@ const maxTentativi = 6;
 
 function creaGriglia() {
     const grid = document.getElementById("grid");
+    grid.style.display = "grid";
+    grid.style.gridTemplateColumns = "repeat(5, 60px)";
+    grid.style.gridGap = "5px";
+    grid.style.justifyContent = "center";
+
     for (let i = 0; i < maxTentativi * 5; i++) {
         const div = document.createElement("div");
         div.classList.add("letter-box");
@@ -22,10 +27,11 @@ function checkGuess() {
 
     const grid = document.getElementById("grid");
     const rowStart = tentativi * 5;
-    
+
     for (let i = 0; i < 5; i++) {
         const box = grid.children[rowStart + i];
         box.textContent = guess[i];
+        box.classList.remove("correct", "present", "absent");
 
         if (guess[i] === parolaSegreta[i]) {
             box.classList.add("correct");
@@ -40,12 +46,12 @@ function checkGuess() {
     guessInput.value = "";
 
     if (guess === parolaSegreta) {
-        document.getElementById("message").textContent = "Bravo! 🎉 Hai sbloccato la password!";
+        document.getElementById("message").textContent = "Bravo! 🎉 Hai sbloccato la password nascosta!";
         guessInput.disabled = true;
         triggerFireworks();
         showDogs();
     } else if (tentativi >= maxTentativi) {
-        document.getElementById("message").textContent = "Peccato! Hai perso :( ";
+        document.getElementById("message").textContent = "Peccato! Hai perso.";
         guessInput.disabled = true;
     }
 }
@@ -76,6 +82,7 @@ function showDogs() {
         let img = document.createElement("img");
         img.src = dog;
         img.classList.add("dog");
+        img.style.position = "fixed";
         img.style.left = `${20 + index * 150}px`;
         img.style.bottom = "20px";
         document.body.appendChild(img);

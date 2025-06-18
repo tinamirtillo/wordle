@@ -1,19 +1,190 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wordle di Auguri</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wordle Personalizzato</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 30px;
+    background: #f0f0f0;
+  }
+  #grid {
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(5, 60px);
+    grid-gap: 5px;
+    justify-content: center;
+  }
+  .letter-box {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    user-select: none;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+  }
+  .correct {
+    background-color: #6aaa64; /* verde */
+    color: white;
+  }
+  .present {
+    background-color: #c9b458; /* giallo */
+    color: white;
+  }
+  .absent {
+    background-color: #787c7e; /* grigio */
+    color: white;
+  }
+  #guessInput {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    width: 150px;
+    padding: 5px;
+    margin-top: 20px;
+    letter-spacing: 5px;
+  }
+  button {
+    font-size: 1.2rem;
+    padding: 6px 15px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  #message {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  .firework {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: fadeOut 1s forwards;
+  }
+  @keyframes fadeOut {
+    to {
+      opacity: 0;
+      transform: scale(2);
+    }
+  }
+  .dog {
+    width: 100px;
+    height: auto;
+    pointer-events: none;
+    user-select: none;
+    position: fixed;
+    bottom: 20px;
+  }
+</style>
 </head>
 <body>
-    <h1>Indovina la parola per far apparire il messaggio nascosto!</h1>
-    <div id="game">
-        <div id="grid"></div>
-        <input type="text" id="guessInput" maxlength="5" placeholder="Scrivi qui..." />
-        <button onclick="checkGuess()">Invia</button>
-    </div>
-    <p id="message"></p>
-    <script src="script.js"></script>
+
+<h1>Wordle Personalizzato</h1>
+
+<div id="grid"></div>
+
+<input type="text" id="guessInput" maxlength="5" />
+<button onclick="checkGuess()">Prova</button>
+
+<div id="message"></div>
+
+<script>
+const parolaSegreta = "BURRO";  // Cambia con la parola che vuoi!
+let tentativi = 0;
+const maxTentativi = 6;
+
+function creaGriglia() {
+    const grid = document.getElementById("grid");
+    for (let i = 0; i < maxTentativi * 5; i++) {
+        const div = document.createElement("div");
+        div.classList.add("letter-box");
+        grid.appendChild(div);
+    }
+}
+
+function checkGuess() {
+    const guessInput = document.getElementById("guessInput");
+    let guess = guessInput.value.toUpperCase();
+
+    if (guess.length !== 5) {
+        alert("La parola deve essere di 5 lettere!");
+        return;
+    }
+
+    const grid = document.getElementById("grid");
+    const rowStart = tentativi * 5;
+
+    for (let i = 0; i < 5; i++) {
+        const box = grid.children[rowStart + i];
+        box.textContent = guess[i];
+        box.classList.remove("correct", "present", "absent");
+
+        if (guess[i] === parolaSegreta[i]) {
+            box.classList.add("correct");
+        } else if (parolaSegreta.includes(guess[i])) {
+            box.classList.add("present");
+        } else {
+            box.classList.add("absent");
+        }
+    }
+
+    tentativi++;
+    guessInput.value = "";
+
+    if (guess === parolaSegreta) {
+        document.getElementById("message").textContent = "Bravo! 🎉 Hai sbloccato la password nascosta!";
+        guessInput.disabled = true;
+        triggerFireworks();
+        showDogs();
+    } else if (tentativi >= maxTentativi) {
+        document.getElementById("message").textContent = "Peccato! Hai perso.";
+        guessInput.disabled = true;
+    }
+}
+
+function createFirework(x, y) {
+    for (let i = 0; i < 10; i++) {
+        let firework = document.createElement("div");
+        firework.classList.add("firework");
+        firework.style.left = `${x + Math.random() * 100 - 50}px`;
+        firework.style.top = `${y + Math.random() * 100 - 50}px`;
+        firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        document.body.appendChild(firework);
+        setTimeout(() => firework.remove(), 1000);
+    }
+}
+
+function triggerFireworks() {
+    for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+            createFirework(window.innerWidth / 2, window.innerHeight / 3);
+        }, i * 500);
+    }
+}
+
+function showDogs() {
+    let dogs = ["dog1.png", "dog2.png", "dog3.png"];  // Usa i nomi delle immagini che hai
+    dogs.forEach((dog, index) => {
+        let img = document.createElement("img");
+        img.src = dog;
+        img.classList.add("dog");
+        img.style.left = `${20 + index * 150}px`;
+        document.body.appendChild(img);
+    });
+}
+
+window.onload = creaGriglia;
+</script>
+
 </body>
 </html>
