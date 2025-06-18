@@ -1,0 +1,69 @@
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+#grid {
+    display: grid;
+    grid-template-columns: repeat(4, 50px);
+    gap: 5px;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.letter-box {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border: 2px solid black;
+    text-transform: uppercase;
+}
+
+.correct {
+    background-color: green;
+    color: white;
+}
+
+.present {
+    background-color: gold;
+    color: white;
+}
+
+.absent {
+    background-color: gray;
+    color: white;
+}
+
+#guessInput {
+    text-transform: uppercase;
+}
+
+/* ANIMAZIONE FUOCHI D'ARTIFICIO */
+@keyframes fireworks {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+.firework {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: gold;
+    border-radius: 50%;
+    animation: fireworks 1s ease-out forwards;
+}
+
+/* ANIMAZIONE CAGNOLINI */
+.dog {
+    position: absolute;
+    width: 100px;
+    animation: bounce 1s ease-in-out infinite alternate;
+}
+
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+}

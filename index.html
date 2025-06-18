@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle di Auguri</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Indovina la parola per far apparire il messaggio nascosto!</h1>
+    <div id="game">
+        <div id="grid"></div>
+        <input type="text" id="guessInput" maxlength="5" placeholder="Scrivi qui..." />
+        <button onclick="checkGuess()">Invia</button>
+    </div>
+    <p id="message"></p>
+    <script src="script.js"></script>
+</body>
+</html>
