@@ -1,10 +1,10 @@
-const parolaSegreta = "CANE";  // Cambia con la parola che vuoi!
+const parolaSegreta = "BURRO";  // Cambia con la parola che vuoi!
 let tentativi = 0;
 const maxTentativi = 6;
 
 function creaGriglia() {
     const grid = document.getElementById("grid");
-    for (let i = 0; i < maxTentativi * 4; i++) {
+    for (let i = 0; i < maxTentativi * 5; i++) {
         const div = document.createElement("div");
         div.classList.add("letter-box");
         grid.appendChild(div);
@@ -15,15 +15,15 @@ function checkGuess() {
     const guessInput = document.getElementById("guessInput");
     let guess = guessInput.value.toUpperCase();
 
-    if (guess.length !== 4) {
-        alert("La parola deve essere di 4 lettere!");
+    if (guess.length !== 5) {
+        alert("La parola deve essere di 5 lettere!");
         return;
     }
 
     const grid = document.getElementById("grid");
-    const rowStart = tentativi * 4;
+    const rowStart = tentativi * 5;
     
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
         const box = grid.children[rowStart + i];
         box.textContent = guess[i];
 
@@ -40,12 +40,12 @@ function checkGuess() {
     guessInput.value = "";
 
     if (guess === parolaSegreta) {
-        document.getElementById("message").textContent = "Brava! 🎉 Hai sbloccato il messaggio nascosto! Buon Compleanno +7! 🎂 Cordiali saluti dai tuoi compagnetti di banco Giovanni Luca e Martina";
+        document.getElementById("message").textContent = "Bravo! 🎉 Hai sbloccato la password nascosta!";
         guessInput.disabled = true;
         triggerFireworks();
         showDogs();
     } else if (tentativi >= maxTentativi) {
-        document.getElementById("message").textContent = "Peccato! La parola era: " + parolaSegreta;
+        document.getElementById("message").textContent = "Peccato! Hai perso. ";
         guessInput.disabled = true;
     }
 }
