@@ -40,12 +40,12 @@ function checkGuess() {
     guessInput.value = "";
 
     if (guess === parolaSegreta) {
-        document.getElementById("message").textContent = "Bravo! 🎉 Hai sbloccato la password nascosta!";
+        document.getElementById("message").textContent = "Bravo! 🎉 Hai sbloccato la password!";
         guessInput.disabled = true;
         triggerFireworks();
         showDogs();
     } else if (tentativi >= maxTentativi) {
-        document.getElementById("message").textContent = "Peccato! Hai perso. ";
+        document.getElementById("message").textContent = "Peccato! Hai perso :( ";
         guessInput.disabled = true;
     }
 }
